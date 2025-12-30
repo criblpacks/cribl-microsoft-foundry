@@ -1,0 +1,55 @@
+output: default
+streamtags: []
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Unroll the records from an EventHub and create _time. Output is JSON
+        (not JSON in _raw)
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: "Author: Cribl Packs Team"
+  - id: unroll
+    filter: "true"
+    disabled: null
+    conf:
+      srcExpr: records
+      dstField: _raw
+  - id: serde
+    filter: "true"
+    disabled: false
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      remove: []
+      fieldFilterExpr: value !== '' && value !== null
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      keep: []
+      remove:
+        - records
+        - _raw
+      add: []
+  - id: auto_timestamp
+    filter: "true"
+    disabled: false
+    conf:
+      srcField: TimeGenerated
+      dstField: _time
+      defaultTimezone: UTC
+      timeExpression: time.getTime() / 1000
+      offset: 0
+      maxLen: 150
+      defaultTime: now
+      latestDateAllowed: +1week
+      earliestDateAllowed: -420weeks
+      timestamps: []
+description: ""

@@ -1,0 +1,94 @@
+output: default
+streamtags: []
+groups:
+  1NNAst:
+    name: Output to Splunk
+    disabled: true
+    index: 5
+    description: Enable to format data for Splunk
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Parse and perform minor cleanup on Azure AI Foundry logs
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: "Author: Cribl Packs Team"
+  - id: eval
+    filter: "true"
+    disabled: null
+    conf:
+      remove:
+        - records
+        - cribl_breaker
+        - _raw
+        - _time
+      add:
+        - disabled: false
+          name: source
+          value: __packsource
+  - id: auto_timestamp
+    filter: "true"
+    disabled: null
+    conf:
+      srcField: TimeGenerated
+      dstField: _time
+      defaultTimezone: UTC
+      timeExpression: time.getTime() / 1000
+      offset: 0
+      maxLen: 150
+      defaultTime: now
+      latestDateAllowed: +1week
+      earliestDateAllowed: -420weeks
+  - id: rename
+    filter: "true"
+    disabled: false
+    conf:
+      wildcardDepth: 5
+      baseFields: []
+      rename: []
+      renameExpr: "name.startsWith('_') && name != '_time' ? name.replace(/_/, '') : name"
+    description: Several useful fields begin with "_" - rename them to avoid issues
+      downstream
+  - id: serialize
+    filter: "true"
+    disabled: true
+    conf:
+      type: json
+      dstField: _raw
+      fields:
+        - "!cribl_*"
+        - "!host"
+        - "!source"
+        - "!sourcetype"
+        - "!index"
+        - "!_*"
+        - "*"
+    groupId: 1NNAst
+  - id: eval
+    filter: "true"
+    disabled: true
+    conf:
+      keep:
+        - _*
+        - cribl_*
+        - host
+        - source
+        - sourcetype
+        - index
+      remove:
+        - "*"
+        - _*
+      add:
+        - disabled: false
+          name: index
+          value: index || C.vars['microsoft_foundry_default_splunk_index']
+        - disabled: false
+          name: sourcetype
+          value: "'microsoft:foundry:ai:traces'"
+    groupId: 1NNAst
+description: ""

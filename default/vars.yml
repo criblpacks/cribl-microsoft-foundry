@@ -1,0 +1,4 @@
+microsoft_foundry_default_splunk_index:
+  type: any
+  lib: custom
+  value: "'microsoft_foundry'"

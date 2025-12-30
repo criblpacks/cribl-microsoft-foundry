@@ -1,0 +1,1 @@
+{"name":"cribl-microsoft-foundry-io","version":"1.0.0","minLogStreamVersion":"4.15.0","author":"Cribl Packs Team","description":"Source Pack to collect and process Microsoft Foundry AI-related data from an Azure Event Hub","displayName":"Microsoft Foundry Event Hub IO","tags":{"streamtags":[]},"exports":[]}

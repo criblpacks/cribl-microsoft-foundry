@@ -1,0 +1,26 @@
+id: default
+groups: {}
+comments: []
+routes:
+  - id: sNjYVq
+    name: cribl_process_microsoft_foundry_data
+    final: true
+    disabled: false
+    pipeline: cribl_microsoft_foundry
+    description: ""
+    enableOutputExpression: false
+    outputExpression: null
+    filter: __packsource.includes('cribl-microsoft-foundry-eventhub-io')
+    clones: []
+    output: default
+  - id: default
+    name: default
+    final: true
+    disabled: false
+    pipeline: main
+    description: ""
+    enableOutputExpression: false
+    outputExpression: null
+    filter: "true"
+    clones: []
+    output: default
