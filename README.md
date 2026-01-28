@@ -1,4 +1,4 @@
-# Cribl Azure Foundry Event Hub Collector
+# Cribl Azure Foundry Event Hub IO
 ----
 ## About this Pack
 
