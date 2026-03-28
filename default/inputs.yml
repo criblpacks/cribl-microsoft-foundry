@@ -1,6 +1,6 @@
 inputs:
   in_microsoft_foundry_cribl_integration:
-    disabled: false
+    disabled: true
     sendToRoutes: true
     pqEnabled: false
     streamtags: []
